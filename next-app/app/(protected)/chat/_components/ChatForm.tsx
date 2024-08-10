@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Message, useChat } from "ai/react";
-import { createContext, SVGProps } from "react";
+import { createContext, SVGProps, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { create } from "@/lib/script/createResource";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   input: z.string().min(2).max(500),
@@ -23,6 +25,8 @@ const formSchema = z.object({
 export const MessagesContext = createContext<Message[]>([]);
 
 export default function ChatForm({ children }: { children?: React.ReactNode }) {
+  const [isCreatingDatasets, setCreatingDatasets] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,6 +38,20 @@ export default function ChatForm({ children }: { children?: React.ReactNode }) {
   const { isLoading, setInput, input, handleSubmit, messages } = useChat({
     api: "/api/mistral/chat",
     maxToolRoundtrips: 2,
+    onResponse() {
+      // Scroll the document to the end
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    },
+    onFinish() {
+      setInput("");
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    },
   });
 
   return (
@@ -60,7 +78,10 @@ export default function ChatForm({ children }: { children?: React.ReactNode }) {
               ></textarea>
 
               <Button
-                className="p-2 h-fit w-fit bg-[#3E3A53]"
+                className={cn(
+                  "p-2 h-fit w-fit bg-[#3E3A53]",
+                  isLoading && "animate-pulse"
+                )}
                 variant={"ghost"}
                 size={"icon"}
                 type="submit"

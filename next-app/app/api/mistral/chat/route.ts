@@ -17,10 +17,9 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = await streamText({
-    model: mistral("mistral-small-latest"),
+    model: mistral("mistral-large-latest"),
     system: `You are the Headstarter Babysitter, a helpful assistant. Check your knowledge base before answering any questions.
-    Only respond to questions using information from tool calls.
-    if no relevant information is found in the tool calls, respond, "Sorry, I don't know."`,
+    Respond to questions using information from tool calls and your own knowledge. If some relevant information is found in the tool calls, use it. If no relevant information is found in the tool calls, respond, "Sorry, I don't know."`,
     messages: convertToCoreMessages(messages),
     tools: {
       addResource: tool({
