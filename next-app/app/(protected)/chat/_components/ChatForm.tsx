@@ -6,16 +6,7 @@ import { createContext, SVGProps, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { create } from "@/lib/script/createResource";
+import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -36,7 +27,7 @@ export default function ChatForm({ children }: { children?: React.ReactNode }) {
   });
 
   const { isLoading, setInput, input, handleSubmit, messages } = useChat({
-    api: "/api/mistral/chat",
+    api: "/api/mistral/orchestration",
     maxToolRoundtrips: 2,
     onResponse() {
       // Scroll the document to the end
