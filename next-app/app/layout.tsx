@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   title: "Headstarter Babysitter",
   description:
     "The ultimate companion to hold the hand of novice Headstarter fellows!",
+  openGraph: {
+    title: "Headstarter Babysitter",
+    description:
+      "The ultimate companion to hold the hand of novice Headstarter fellows!",
+    url: "https://hsbabysitter.vercel.app",
+    siteName: "Headstarter Babysitter",
+    images: [
+      {
+        url: "https://res.cloudinary.com/ddfjwg2rb/image/upload/v1724097970/My%20Uploads/Portfolio%20Projects/Headstarter%20Babysitter%20RAG/seo-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en-US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
